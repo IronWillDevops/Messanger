@@ -21,7 +21,7 @@ namespace Messanger
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Version currentAppVersion;
+       
 
         private UpdateChecker updateChecker;
         NotificationManager manager = new NotificationManager();
@@ -29,8 +29,8 @@ namespace Messanger
         public MainWindow()
         {
             InitializeComponent();
-            currentAppVersion = GetCurrentAppVersion();
-            VersionLabel.Content = $"v{currentAppVersion}";
+            
+            VersionLabel.Content = $"v{UpdateChecker.AppVersion}";
 
             updateChecker = new UpdateChecker();
             updateChecker.UpdateAvailable += UpdateChecker_UpdateAvailable;
@@ -58,7 +58,7 @@ namespace Messanger
             try
             {
                 Version latestVersion = await updateChecker.CheckForUpdateAsync();
-                if (latestVersion > currentAppVersion)
+                if (latestVersion > UpdateChecker.AppVersion)
                 {
                     updateChecker.NotifyUpdateAvailable(latestVersion);
                 }
@@ -83,10 +83,8 @@ namespace Messanger
             // Perform update logic here
         }
 
-        private Version GetCurrentAppVersion()
-        {
-            return new Version(0, 0, 0, 1);
-        }
+      
+       
     }
 
 

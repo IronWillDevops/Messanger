@@ -11,8 +11,10 @@ namespace Messanger.Model
     public class UpdateChecker
     {
 
-        public const string GitHubHtmlUrl = "https://github.com/IronWillDevops/Messager";
+        public const string GitHubHtmlUrl = "https://github.com/IronWillDevops/Messanger";
         public const string GitHubRepoUrl = "https://api.github.com/repos/IronWillDevops/Messanger/releases/latest";
+
+        public static Version AppVersion = new Version(1, 0, 0,0);
         private readonly HttpClient httpClient;
 
         public event EventHandler<Version> UpdateAvailable;
@@ -20,7 +22,7 @@ namespace Messanger.Model
         public UpdateChecker()
         {
             httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("YourAppName");
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Messanger");
         }
 
         public async Task<Version> CheckForUpdateAsync()
@@ -38,6 +40,8 @@ namespace Messanger.Model
 
             throw new Exception("Invalid release information.");
         }
+
+      
 
         public void NotifyUpdateAvailable(Version latestVersion)
         {
