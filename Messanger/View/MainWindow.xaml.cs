@@ -21,72 +21,39 @@ namespace Messanger
     /// </summary>
     public partial class MainWindow : Window
     {
-       
-
-        private UpdateChecker updateChecker;
-        NotificationManager manager = new NotificationManager();
-
+        private readonly UpdateChecker _updateChecker;
+        private readonly INotificationService _notificationService;
         public MainWindow()
         {
             InitializeComponent();
-            
+            _notificationService = new WpfNotificationService(this);
+            _updateChecker = new UpdateChecker(_notificationService);
+
+            CheckForUpdateAsync();
             VersionLabel.Content = $"v{UpdateChecker.AppVersion}";
-
-            updateChecker = new UpdateChecker();
-            updateChecker.UpdateAvailable += UpdateChecker_UpdateAvailable;
-            CheckForUpdateAsync();
         }
 
-        private void UpdateChecker_UpdateAvailable(object sender, Version latestVersion)
+        private async Task CheckForUpdateAsync()
         {
-            manager.AddNotification($"New version {latestVersion} is available! Click 'Update' to install.");
-            NotificationLabel.Content = manager.GetLatestNotification();
-            UpdateButton.Visibility = Visibility.Visible;
-        }
-
-        private void CheckForUpdates_Click(object sender, RoutedEventArgs e)
-        {
-            CheckForUpdateAsync();
-        }
-
-        private async void CheckForUpdateAsync()
-        {
-
-
-            // Получаем последнее уведомление
-
             try
             {
-                Version latestVersion = await updateChecker.CheckForUpdateAsync();
+                Version latestVersion = await _updateChecker.CheckForUpdateAsync();
                 if (latestVersion > UpdateChecker.AppVersion)
                 {
-                    updateChecker.NotifyUpdateAvailable(latestVersion);
+                    _notificationService.ShowNotification($"New version {latestVersion} is available! Click to download.", UpdateChecker.GitHubHtmlUrl);
                 }
                 else
                 {
-                    manager.AddNotification("You are using the latest version.");
+                    _notificationService.ShowNotification("You are using the latest version.");
                 }
             }
             catch (Exception ex)
             {
-                // manager.AddNotification($"Failed to check for updates: {ex.Message}");
+                Logger.Error(ex.Message);
             }
-            finally
-            {
-                NotificationLabel.Content = manager.GetLatestNotification();
-            }
-        }
-
-        private async void UpdateButton_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(UpdateChecker.GitHubHtmlUrl);
-            // Perform update logic here
         }
 
       
-       
+
     }
-
-
-
 }

@@ -95,6 +95,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\INotificationService.cs" />
+    <Compile Include="Model\Logger.cs" />
+    <Compile Include="Model\Notification.cs" />
+    <Compile Include="Model\WpfNotificationService.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -109,8 +113,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Notification.cs" />
-    <Compile Include="Model\NotificationManager.cs" />
     <Compile Include="Model\UpdateChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
