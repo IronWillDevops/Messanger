@@ -14,7 +14,7 @@ namespace Messanger.Model
         public const string GitHubHtmlUrl = "https://github.com/IronWillDevops/Messanger";
         public const string GitHubRepoUrl = "https://api.github.com/repos/IronWillDevops/Messanger/releases/latest";
 
-        public static Version AppVersion = new Version(1, 0, 0,0);
+        public static Version AppVersion = new Version(0, 0, 0,0);
         private readonly HttpClient httpClient;
 
         public event EventHandler<Version> UpdateAvailable;
